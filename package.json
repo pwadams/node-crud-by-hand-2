@@ -1,0 +1,12 @@
+{
+  "name": "CRUD-sans-frameworks",
+  "description": "CRUD without a framework",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "jade": "*",
+    "mongodb": "*",
+    "mongoose": "*",
+    "nodemon": "*"
+  }
+}
