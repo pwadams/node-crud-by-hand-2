@@ -3,6 +3,7 @@
 * Fork and clone this repository, then `cd` into the directory you cloned it to
 * `npm install`
 * If you don't want to have to kill and restart your server, install nodemon with `npm install -g nodemon` and run the exercise using `nodemon server.js`
+* visit http://localhost:1337
 
 ## Goal
 

@@ -1,11 +1,11 @@
 var fs = require("fs"),
-    http = require("http"),
-    mongoose = require("mongoose"),
-    jade = require('jade');
+http = require("http"),
+mongoose = require("mongoose"),
+jade = require('jade');
 
 // load Car model
 var carAttrs = require("./car.js"),
-    carSchema = mongoose.Schema(carAttrs);
+carSchema = mongoose.Schema(carAttrs);
 
 
 var Car = mongoose.model('Car', carSchema);
@@ -16,7 +16,7 @@ var handleRequest = function(req, res) {
   if (req.url == '/') {
     res.writeHead(301, {Location: 'http://localhost:1337/cars'})
     res.end();
-  }
+  }//root path redirecting to cars
 
   if (req.url == '/cars') {
     // Synchronously load the index jade template (http://jade-lang.com/)
@@ -26,16 +26,20 @@ var handleRequest = function(req, res) {
 
     // example of data that can be passed in to the Jade template:
     // in your CRUD app, a call to Mongoose should return all of the Cars
-    var sampleDataForCars = { cars: [
-      { driver: 'Andreas', make: 'Nissan', model: 'Xterra', year: 2005 },
-      { driver: 'Bob Ross', make: 'Ford', model: 'Pinto', year: 1972 }
-    ]};
-
+    // var sampleDataForCars = { cars: [
+      // { driver: 'Andreas', make: 'Nissan', model: 'Xterra', year: 2005 },
+      // { driver: 'Bob Ross', make: 'Ford', model: 'Pinto', year: 1972 }
+    // ]};
+    Car.find(function (err, cars) {
+      if (err) return console.error(err);
     // Render jade template, passing in the info
-    var rendered = compiledIndex(sampleDataForCars);
+    var rendered = compiledIndex({cars: cars});
 
     // Write rendered contents to response stream
     res.end(rendered);
+    // console.log(cars);
+  })
+
   } else {
     // Your code might go here (or it might not)
     res.writeHead(200);
