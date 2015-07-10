@@ -18,30 +18,31 @@ var handleRequest = function(req, res) {
     res.end();
   }//root path redirecting to cars
 
-  if (req.url == '/cars') {
-    // Synchronously load the index jade template (http://jade-lang.com/)
+  
+
+  if (req.url === '/cars' && req.method === 'GET') {//INDEX GET
     var index = fs.readFileSync('index.jade', 'utf8');
-    // Compile template
     compiledIndex = jade.compile(index, { pretty: true, filename: 'index.jade' });
-
-    // example of data that can be passed in to the Jade template:
-    // in your CRUD app, a call to Mongoose should return all of the Cars
-    // var sampleDataForCars = { cars: [
-      // { driver: 'Andreas', make: 'Nissan', model: 'Xterra', year: 2005 },
-      // { driver: 'Bob Ross', make: 'Ford', model: 'Pinto', year: 1972 }
-    // ]};
     Car.find(function (err, cars) {
-      if (err) return console.error(err);
-    // Render jade template, passing in the info
-    var rendered = compiledIndex({cars: cars});
+      if (err) { return console.error(err); }
+      var rendered = compiledIndex({cars: cars});
+      res.end(rendered);
+    });
 
-    // Write rendered contents to response stream
-    res.end(rendered);
-    // console.log(cars);
-  })
+
+
+  } else if (req.url === '/cars' && req.method === 'POST') {//INDEX POST
+    console.log(req);
+
+
+
+  } else if (req.url === '/cars/new') {//NEW
+      var newCar = fs.readFileSync('new.jade', 'utf8');
+      compiledNew = jade.compile(newCar, { pretty: true, filename: 'new.jade' });
+      var rendered = compiledNew();
+      res.end(rendered);
 
   } else {
-    // Your code might go here (or it might not)
     res.writeHead(200);
     res.end('A new programming journey awaits');
   }
